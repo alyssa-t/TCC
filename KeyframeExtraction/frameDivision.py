@@ -5,7 +5,7 @@ import math
 
 VIDEOS_DIR = '/home/alyssa/Vídeos/'                        # The place to put the video
 TARGET_IMAGES_DIR = '/home/alyssa/TCC/Estudos/frames/' 
-VIDEO_FILE_NAME = 'shinkyo.mp4'
+VIDEO_FILE_NAME = 'obungu.mp4'
 
 
 class Image_Clustering:

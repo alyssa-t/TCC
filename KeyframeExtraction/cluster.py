@@ -27,6 +27,7 @@ X = np.array([cv2.resize(cv2.imread(p), (64, 64), cv2.INTER_CUBIC) for p in file
 X = X.reshape(X.shape[0], -1)
 #print (X.shape)
 
+#testar com as imagens em preto e branco dps
 
 pca = PCA(n_components = PCA_COMPONENTS)
 pca.fit(X)
