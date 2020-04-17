@@ -4,78 +4,68 @@ import cv2
 import os
 import shutil
 import pyclustering
+
 from pyclustering.cluster import xmeans
 from pyclustering.cluster.encoder import cluster_encoder, type_encoding
 from pyclustering.cluster.kmeans import kmeans, kmeans_visualizer
-
-
-from PIL import Image 
-from sklearn import datasets
+from scipy.spatial import distance
 from sklearn.decomposition import PCA
 
 TARGET_IMAGES_DIR = '/home/alyssa/TCC/Estudos/frames/'
+CENTROID_IMAGES_DIR = '/home/alyssa/TCC/Estudos/frames/CentroidImage/'
+IMAGE_TYPE = 'png'
+INITIAL_XMEANS_CENTERS = 3
+PCA_COMPONENTS = 3
 
-filelist = glob.glob(TARGET_IMAGES_DIR+"*.png")
+def closest_node(node, nodes):
+    closest_index = distance.cdist([node], nodes).argmin()
+    return nodes[closest_index]
+
+
+filelist = glob.glob(TARGET_IMAGES_DIR + "*." + IMAGE_TYPE)
 X = np.array([cv2.resize(cv2.imread(p), (64, 64), cv2.INTER_CUBIC) for p in filelist])
 X = X.reshape(X.shape[0], -1)
+#print (X.shape)
+
 #testar com as imagens em preto e branco dps
 
-# 主成分分析前のサイズ
-print(X.shape)
-pca = PCA(n_components = 2)
+pca = PCA(n_components = PCA_COMPONENTS)
 pca.fit(X)
 X_pca= pca.transform(X)
-print(X_pca.shape)
-
-initializer = xmeans.kmeans_plusplus_initializer(data=X_pca, amount_centers=2)
+X_pca = X_pca/ np.sqrt(np.sum(X_pca**2))
+#X_pca = X/ np.sqrt(np.sum(X**2))
+print (X_pca.shape)
+initializer = xmeans.kmeans_plusplus_initializer(data=X_pca, amount_centers=INITIAL_XMEANS_CENTERS)
 initial_centers = initializer.initialize()
 xm = xmeans.xmeans(data=X_pca, initial_centers=initial_centers)
 xm.process()
 clusters = xm.get_clusters()
-
-
-type_repr = xm.get_cluster_encoding();
-encoder = cluster_encoder(type_repr, clusters, X_pca);
-encoder.set_encoding(type_encoding.CLUSTER_INDEX_LABELING);
 centers = xm.get_centers()
-print(centers)
+
+centerIdx = list()
+
+for idx, p in enumerate(centers):
+    centerIdx.append(np.where(X_pca == closest_node(p, X_pca))[0][0])
+
+if PCA_COMPONENTS < 4:
+    ax = pyclustering.utils.draw_clusters(data=X_pca, clusters=clusters)
+    #kmeans_visualizer.show_clusters(X_pca, clusters, centers)
 
 
-kmeans_visualizer.show_clusters(X_pca, clusters, centers)
-#ax = pyclustering.utils.draw_clusters(data=X_pca, clusters=clusters)
+if os.path.exists(CENTROID_IMAGES_DIR):
+    shutil.rmtree(CENTROID_IMAGES_DIR)
+if not os.path.exists(CENTROID_IMAGES_DIR):
+    os.makedirs(CENTROID_IMAGES_DIR)
 
-print("PCA累積寄与率: {}".format(sum(pca.explained_variance_ratio_)))
-
-
-
-""""
-for i in range(cluster_size):
-    label = np.where(labels==i)[0]
-    # Image placing
-    if not os.path.exists(output_path+"/img_"+str(i)):
-        os.makedirs(output_path+"/img_"+str(i))
-        os.chown(output_path+"/img_"+str(i), uid, gid)
-    for j in label:
-        img = Image.open(img_paths[j])
-        fname = img_paths[j].split('/')[-1]
-        img.save(output_path+"/img_"+str(i)+"/" + fname)
-        os.chown(output_path+"/img_"+str(i)+"/" + fname, uid, gid)
-print("Image placing done.")
-"""
-
-print(xm.get_cluster_encoding())
-
-# 主成分分析による次元削減
-
-#X_pca= pca.transform(X)
-
-# 主成分分析後のサイズ
-#print(X_pca.shape)
 label = 0
 for c in clusters:
-    if not os.path.exists('/home/alyssa/TCC/Estudos/frames/'+str(label)):
-        os.makedirs('/home/alyssa/TCC/Estudos/frames/'+str(label))
-    
     for item in c:
-        shutil.copyfile(filelist[item], '/home/alyssa/TCC/Estudos/frames/'+str(label)+"/"+str(item)+".png")
-    label = label+1
+        if (item == centerIdx[label]):
+            shutil.copyfile(filelist[item], CENTROID_IMAGES_DIR + str(label) + "." + IMAGE_TYPE)
+            label = label+1
+            print('Save', CENTROID_IMAGES_DIR + str(label) + "." + IMAGE_TYPE)
+            break
+
+print("PCA cumulative contribution ratio: {}".format(sum(pca.explained_variance_ratio_)))
+
+
