@@ -50,7 +50,7 @@ class Data2Frames:
                 pb.update(count)
             count+=1
         print ('')
-        print('Saved '+str(i)+" images")
+        print('Saved '+str(count)+" images")
         cap.release()  # When everything done, release the capture
 
 
