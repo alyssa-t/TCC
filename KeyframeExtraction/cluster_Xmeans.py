@@ -21,8 +21,13 @@ def closest_node(node, nodes):
     closest_index = distance.cdist([node], nodes).argmin()
     return nodes[closest_index]
 
+if not os.path.exists(TARGET_IMAGES_DIR):
+    exit("Path do not exists")
 
 filelist = glob.glob(TARGET_IMAGES_DIR + "*." + IMAGE_TYPE)
+
+if len(filelist) < 1:
+    exit("No images in this folder")
 
 X = np.array([cv2.resize(cv2.imread(p), (64, 64), cv2.INTER_CUBIC) for p in filelist])
 X = X.reshape(X.shape[0], -1)

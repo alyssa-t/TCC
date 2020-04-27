@@ -1,21 +1,18 @@
-from keras.applications.vgg16 import VGG16, preprocess_input, decode_predictions
-from keras.layers import Dense, Dropout, Activation, Flatten
-from keras.preprocessing import image
-
-from sklearn.cluster import OPTICS, cluster_optics_dbscan
 import numpy as np
 import pandas as pd
-import sys
 import cv2
 import os
-import keras
-from progressbar import ProgressBar
 import shutil
 import time
 
+from keras.applications.vgg16 import VGG16, preprocess_input, decode_predictions
+from keras.layers import Dense, Dropout, Activation, Flatten
+from keras.preprocessing import image
+from sklearn.cluster import OPTICS, cluster_optics_dbscan
+from progressbar import ProgressBar
 
-TARGET_IMAGES_DIR = '../data/frames/'     # The place to put the images which you want to execute clustering
-CLUSTERED_IMAGES_DIR = '../data/CentroidImage/'   # The place to put the images which are clustered
+TARGET_IMAGES_DIR = '/home/alyssa/TCC/Estudos/frames/'     # The place to put the images which you want to execute clustering
+CLUSTERED_IMAGES_DIR = '/home/alyssa/TCC/Estudos/frames/CentroidImage/'   # The place to put the images which are clustered
 IMAGE_LABEL_FILE ='image_label.csv'                  # Image name and its label
 INITIAL_XMEANS_CENTERS = 3
 
