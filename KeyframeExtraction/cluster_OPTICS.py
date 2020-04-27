@@ -20,7 +20,6 @@ IMAGE_LABEL_FILE ='image_label.csv'                  # Image name and its label
 INITIAL_XMEANS_CENTERS = 3
 
 class Image_Clustering:
-	def __init__(self):
 
 	def main(self):
 		self.label_images()
@@ -45,6 +44,7 @@ class Image_Clustering:
 			X.append(feat)
 			pb.update(i)  # Update progressbar
 
+		print ('')
 		print("Clustering")
 		# Clutering images by OPTICS
 		X = np.array(X)
@@ -95,8 +95,11 @@ class Image_Clustering:
 					shutil.copyfile(src, dst)
 					break
 
+		if os.path.exists(IMAGE_LABEL_FILE):
+			os.remove(IMAGE_LABEL_FILE)
+
 
 if __name__ == "__main__":
 	start_time = time.time()
 	Image_Clustering().main()
-	print("--- %s seconds ---" % (time.time() - start_time))
+	print("--- execution time: %.2f seconds ---" % (time.time() - start_time))
