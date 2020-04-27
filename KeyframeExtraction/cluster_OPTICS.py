@@ -14,8 +14,8 @@ import shutil
 import time
 
 
-TARGET_IMAGES_DIR = '/home/alyssa/TCC/Estudos/frames/'     # The place to put the images which you want to execute clustering
-CLUSTERED_IMAGES_DIR = '/home/alyssa/TCC/Estudos/frames/CentroidImage/'   # The place to put the images which are clustered
+TARGET_IMAGES_DIR = '../data/frames/'     # The place to put the images which you want to execute clustering
+CLUSTERED_IMAGES_DIR = '../data/CentroidImage/'   # The place to put the images which are clustered
 IMAGE_LABEL_FILE ='image_label.csv'                  # Image name and its label
 INITIAL_XMEANS_CENTERS = 3
 
