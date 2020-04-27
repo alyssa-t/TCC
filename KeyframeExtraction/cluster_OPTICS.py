@@ -20,10 +20,7 @@ IMAGE_LABEL_FILE ='image_label.csv'                  # Image name and its label
 INITIAL_XMEANS_CENTERS = 3
 
 class Image_Clustering:
-	def __init__(self, n_clusters=50):
-		self.n_clusters = n_clusters            # The number of cluster
-
-
+	def __init__(self):
 
 	def main(self):
 		self.label_images()
@@ -40,6 +37,7 @@ class Image_Clustering:
 		assert(len(images)>0)
 
 		X = []
+		print("Extractig features of images")
 		pb = ProgressBar(len(images)).start()
 		for i in range(len(images)):
 			# Extract image features
@@ -47,13 +45,11 @@ class Image_Clustering:
 			X.append(feat)
 			pb.update(i)  # Update progressbar
 
+		print("Clustering")
 		# Clutering images by OPTICS
 		X = np.array(X)
 		op = OPTICS(min_samples=3).fit(X)
-		print('')
-		print('labels:')
-		print(op.labels_)
-		print('')
+		print(str(len(op.labels_)) + " clusters created")
 
 		# Merge images and labels
 		df = pd.DataFrame({'image': images, 'label': op.labels_})
@@ -65,16 +61,13 @@ class Image_Clustering:
 		x = image.img_to_array(img)
 		x = np.expand_dims(x, axis=0)  # add a dimention of samples
 		x = preprocess_input(x)  # RGB 2 BGR and zero-centering by mean pixel based on the position of channels
-
 		feat = model.predict(x)  # Get image features
 		feat = feat.flatten()  # Convert 3-dimentional matrix to (1, n) array
-
 		return feat
 
 
 	def classify_images(self):
 		print('Classify images...')
-
 		# Get labels and images
 		df = pd.read_csv(IMAGE_LABEL_FILE)
 		labels = list(set(df['label'].values))
