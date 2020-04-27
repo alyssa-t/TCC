@@ -12,10 +12,11 @@ from scipy.spatial import distance
 from sklearn.decomposition import PCA
 
 TARGET_IMAGES_DIR = '/home/alyssa/TCC/Estudos/frames/'
+TARGET_CANNY_IMAGES_DIR = '/home/alyssa/TCC/Estudos/frames/Canny/'
 CENTROID_IMAGES_DIR = '/home/alyssa/TCC/Estudos/frames/CentroidImage/'
 IMAGE_TYPE = 'png'
 INITIAL_XMEANS_CENTERS = 3
-PCA_COMPONENTS = 3
+PCA_COMPONENTS = 2
 
 def closest_node(node, nodes):
     closest_index = distance.cdist([node], nodes).argmin()
@@ -23,8 +24,11 @@ def closest_node(node, nodes):
 
 
 filelist = glob.glob(TARGET_IMAGES_DIR + "*." + IMAGE_TYPE)
-X = np.array([cv2.resize(cv2.imread(p), (64, 64), cv2.INTER_CUBIC) for p in filelist])
+filelist_canny = glob.glob(TARGET_CANNY_IMAGES_DIR + "*." + IMAGE_TYPE)
+
+X = np.array([cv2.resize(cv2.imread(p), (64, 64), cv2.INTER_CUBIC) for p in filelist_canny])
 X = X.reshape(X.shape[0], -1)
+#print(X)
 #print (X.shape)
 
 #testar com as imagens em preto e branco dps
@@ -32,9 +36,9 @@ X = X.reshape(X.shape[0], -1)
 pca = PCA(n_components = PCA_COMPONENTS)
 pca.fit(X)
 X_pca= pca.transform(X)
-X_pca = X_pca/ np.sqrt(np.sum(X_pca**2))
+#X_pca = X_pca/ np.sqrt(np.sum(X_pca**2))
 #X_pca = X/ np.sqrt(np.sum(X**2))
-print (X_pca.shape)
+#print (X_pca.shape)
 initializer = xmeans.kmeans_plusplus_initializer(data=X_pca, amount_centers=INITIAL_XMEANS_CENTERS)
 initial_centers = initializer.initialize()
 xm = xmeans.xmeans(data=X_pca, initial_centers=initial_centers)
@@ -43,9 +47,12 @@ clusters = xm.get_clusters()
 centers = xm.get_centers()
 
 centerIdx = list()
-
+print (centerIdx)
 for idx, p in enumerate(centers):
     centerIdx.append(np.where(X_pca == closest_node(p, X_pca))[0][0])
+print (centerIdx)
+print(len(clusters))
+print (clusters)
 
 if PCA_COMPONENTS < 4:
     ax = pyclustering.utils.draw_clusters(data=X_pca, clusters=clusters)

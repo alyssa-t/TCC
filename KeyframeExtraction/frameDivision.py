@@ -3,9 +3,13 @@ import os
 import shutil
 import math
 
-VIDEOS_DIR = '/home/alyssa/Vídeos/'                        # The place to put the video
+VIDEOS_DIR = '/home/alyssa/Videos/'                        # The place to put the video
 TARGET_IMAGES_DIR = '/home/alyssa/TCC/Estudos/frames/' 
-VIDEO_FILE_NAME = 'obungu.mp4'
+TARGET_CANNY_IMAGES_DIR = '/home/alyssa/TCC/Estudos/frames/Canny/'
+VIDEO_FILE_NAME = 'tensao.mp4'
+FRAME_PER_SECONDS = 1
+CANNY_THRESHOLD1 = 100
+CANNY_THRESHOLD2 = 200
 
 
 class Image_Clustering:
@@ -33,6 +37,7 @@ class Image_Clustering:
           shutil.rmtree(TARGET_IMAGES_DIR)  # Delete an entire directory tree
         if not os.path.exists(TARGET_IMAGES_DIR):
             os.makedirs(TARGET_IMAGES_DIR)  # Make a directory
+            #os.makedirs(TARGET_CANNY_IMAGES_DIR)
 
         i = 0
         count = 0
@@ -41,12 +46,13 @@ class Image_Clustering:
             flag, frame = cap.read()  # Capture frame-by-frame
             if flag == False:
                 break  # A frame is not left
-            if (count%(math.ceil(fps/4))== 0):
+            if (count%(math.ceil(fps/FRAME_PER_SECONDS))== 0):
                 cv2.imwrite(TARGET_IMAGES_DIR+self.image_file_temp % str(i).zfill(6), frame)  # Save a frame
-            
+              #  frame = cv2.Canny(frame, CANNY_THRESHOLD1, CANNY_THRESHOLD2)
+              #  cv2.imwrite(TARGET_CANNY_IMAGES_DIR+self.image_file_temp % str(i).zfill(6), frame)  # Save a frame
+
             i += 1
             count+=1
-            
         print('Saved '+str(i)+" images")
         cap.release()  # When everything done, release the capture
         print('')
