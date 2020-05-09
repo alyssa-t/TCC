@@ -1,3 +1,4 @@
+import time
 import numpy as np
 import glob
 import cv2
@@ -10,10 +11,14 @@ from pyclustering.cluster.center_initializer import kmeans_plusplus_initializer
 from scipy.spatial import distance
 from sklearn.decomposition import PCA
 
-TARGET_IMAGES_DIR = '/home/alyssa/TCC/Estudos/frames/'     # The place to put the images which you want to execute clustering
-CLUSTERED_IMAGES_DIR = '/home/alyssa/TCC/Estudos/frames/CentroidImage/'
+TARGET_IMAGES_DIR = '../data/frames/'
+CLUSTERED_IMAGES_DIR = '../data/CentroidImage/'
+
 IMAGE_TYPE = 'png'
-PCA_COMPONENTS = 2
+PCA_COMPONENTS = 3
+K = 20
+
+start_time = time.time()
 
 def closest_node(node, nodes):
     closest_index = distance.cdist([node], nodes).argmin()
@@ -34,19 +39,15 @@ pca = PCA(n_components = PCA_COMPONENTS)
 pca.fit(X)
 X_pca= pca.transform(X)
 
-initial_centers = kmeans_plusplus_initializer(X_pca, 20).initialize()  # k-means++で初期値設定
+initial_centers = kmeans_plusplus_initializer(X_pca, K).initialize()  # k-means++で初期値設定
 xm = kmeans.kmeans(X_pca, initial_centers)
 xm.process()
 clusters = xm.get_clusters()
 centers = xm.get_centers()
 
 centerIdx = list()
-print (centerIdx)
 for idx, p in enumerate(centers):
     centerIdx.append(np.where(X_pca == closest_node(p, X_pca))[0][0])
-print (centerIdx)
-print(len(clusters))
-print (clusters)
 
 if PCA_COMPONENTS < 4:
     ax = pyclustering.utils.draw_clusters(data=X_pca, clusters=clusters)
@@ -62,7 +63,9 @@ for c in clusters:
         if (item == centerIdx[label]):
             shutil.copyfile(filelist[item], CLUSTERED_IMAGES_DIR + str(label) + "." + IMAGE_TYPE)
             label = label+1
-            print('Save', CLUSTERED_IMAGES_DIR + str(label) + "." + IMAGE_TYPE)
+            #print('Save', CLUSTERED_IMAGES_DIR + str(label) + "." + IMAGE_TYPE)
             break
+
+print("--- execution time: %.2f seconds ---" % (time.time() - start_time))
 
 
