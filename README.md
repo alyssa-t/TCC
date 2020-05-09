@@ -29,7 +29,7 @@ howtogeek.com/442101/how-to-move-your-linux-home-directory-to-another-hard-drive
 
 https://www.tensorflow.org/tutorials/text/image_captioning
 
-http://testpy.hatenablog.com/entry/2017/07/22/195400
+https://github.com/iShoto/testpy/tree/master/samples/image_clustering
 
 
 ## License
