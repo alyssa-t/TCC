@@ -3,6 +3,7 @@ import tensorflow as tf
 class BahdanauAttention(tf.keras.Model):
 	def __init__(self, units):
 		super(BahdanauAttention, self).__init__()
+		#units = dimensionality of the output space
 		self.W1 = tf.keras.layers.Dense(units)
 		self.W2 = tf.keras.layers.Dense(units)
 		self.V = tf.keras.layers.Dense(1)
@@ -44,25 +45,30 @@ class RNN_Decoder(tf.keras.Model):
 	def __init__(self, embedding_dim, units, vocab_size):
 		super(RNN_Decoder, self).__init__()
 		self.units = units
-
+		#transfor each word of dictionary of size topk+1 into a fixed size vector of dimension embedding_dim
+		#more info: https://qiita.com/9ryuuuuu/items/e4ee171079ffa4b87424
+		#vocab_size = inputdim, embedding_dim = outputdim
 		self.embedding = tf.keras.layers.Embedding(vocab_size, embedding_dim)
+		#Gated Recurrent Unit.
 		self.gru = tf.keras.layers.GRU(self.units,
 									return_sequences=True,
 									return_state=True,
 									recurrent_initializer='glorot_uniform')
 		self.fc1 = tf.keras.layers.Dense(self.units)
 		self.fc2 = tf.keras.layers.Dense(vocab_size)
-
+		#(init parameters: object initiated, not called)
 		self.attention = BahdanauAttention(self.units)
 
+	#embedding_dim, units, vocab_size
 	def call(self, x, features, hidden):
-		# defining attention as a separate model
+		# defining attention as a separate model (call parameters)
 		context_vector, attention_weights = self.attention(features, hidden)
 
 		# x shape after passing through embedding == (batch_size, 1, embedding_dim)
 		x = self.embedding(x)
 
 		# x shape after concatenation == (batch_size, 1, embedding_dim + hidden_size)
+		# mmre info in: https://qiita.com/cfiken/items/04925d4da39e1a24114e
 		x = tf.concat([tf.expand_dims(context_vector, 1), x], axis=-1)
 
 		# passing the concatenated vector to the GRU
