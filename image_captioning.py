@@ -43,7 +43,10 @@ else:
 """## Optional: limit the size of the training set 
 To speed up training for this tutorial, you'll use a subset of 30,000 captions and their corresponding images to train our model. Choosing to use more data would result in improved captioning quality.
 """
-
+gpu_devices = tf.config.experimental.list_physical_devices('GPU')
+for device in gpu_devices:
+    tf.config.experimental.set_memory_growth(device, True)
+tf.compat.v1.enable_eager_execution()
 # Read the json file
 with open(annotation_file, 'r') as f:
     annotations = json.load(f)
@@ -68,7 +71,7 @@ train_captions, img_name_vector = shuffle(all_captions,
 
 # Select the first 30000 captions from the shuffled set
 # Pode aumentar as imagens para melhor treinamento
-num_examples = 30000
+num_examples = 10
 train_captions = train_captions[:num_examples]
 img_name_vector = img_name_vector[:num_examples]
 
@@ -153,54 +156,6 @@ cap_vector = tf.keras.preprocessing.sequence.pad_sequences(train_seqs, padding='
 
 # Calculates the max_length, which is used to store the attention weights
 max_length = calc_max_length(train_seqs)
-
-import numpy as np
-from glob import glob
-from mahotas.features import surf
-from sklearn.cluster import KMeans
-from sklearn.feature_extraction.text import TfidfTransformer
-
-picture_category_num = 9
-feature_category_num = 512
-
-# image surf
-images = glob('./*.jpg')
-alldescriptors = []
-for im in images:
-  im = mh.imread(im, as_grey=True)
-  im = im.astype(np.uint8)
-  alldescriptors.append(surf.surf(im, descriptor_only=True))
-
-# image surf -> basic feature
-concatenated = np.concatenate(alldescriptors)
-km = KMeans(feature_category_num)
-km.fit(concatenated)
-
-# image surf and basic feature -> features
-features = []
-for d in alldescriptors:
-  c = km.predict(d)
-  features.append(np.array([np.sum(c == ci) for ci in range(feature_category_num)]))
-features = np.array(features)
-
-# features -> tfidf
-transformer = TfidfTransformer()
-tfidf = transformer.fit_transform(features)
-tfidf.toarray() 
-# not use tfidf
-# tfidf = features
-
-# categorization
-km = KMeans(n_clusters=picture_category_num, init='random', n_init=1, verbose=1)
-km.fit(tfidf)
-
-# print result
-images = np.array(images)
-print('images')
-print(images)
-for i in range(picture_category_num):
-  print('image category{0}'.format(i))
-  print(images[km.labels_ == i])(train_seqs)
 
 """## Split the data into training and testing"""
 
@@ -364,11 +319,12 @@ ckpt = tf.train.Checkpoint(encoder=encoder,
 ckpt_manager = tf.train.CheckpointManager(ckpt, checkpoint_path, max_to_keep=5)
 
 start_epoch = 0
+"""
 if ckpt_manager.latest_checkpoint:
   start_epoch = int(ckpt_manager.latest_checkpoint.split('-')[-1])
   # restoring the latest checkpoint in checkpoint_path
   ckpt.restore(ckpt_manager.latest_checkpoint)
-
+"""
 """## Training
 
 * You extract the features stored in the respective `.npy` files and then pass those features through the encoder.
