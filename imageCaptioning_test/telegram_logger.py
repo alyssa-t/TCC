@@ -1,3 +1,6 @@
+"""
+from : https://github.com/ma-ath/tcc-matheuslima/blob/master/include/telegram_logger.py
+"""
 import requests
 from logging import Handler, Formatter
 import logging
