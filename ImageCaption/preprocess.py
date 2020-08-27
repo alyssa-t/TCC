@@ -14,7 +14,7 @@ def loadAnnotation(annotationFilePath, imageFilePath, numExamples):
 	# initialize vectors
 	all_captions = []
 	all_img_name_vector = []
-	npy = np.load("/home/mathlima/pastaA/imageCaptioning_yolo/idList.npy")
+	npy = np.load("idList.npy")
 	#for all annotation, associate caption with respective image path (path+imageid.jpg)
 	for annot in annotations['annotations']:
 		annotid = '%012d' % (annot['image_id'])
@@ -29,7 +29,7 @@ def loadAnnotation(annotationFilePath, imageFilePath, numExamples):
 		caption = '<start> ' + annot['caption'] + ' <end>'
 		image_id = annot['image_id']
 		
-		full_coco_image_path = "/home/mathlima/pastaA/imageCaptioning_yolo/npy/" + '%012d.jpg' % (image_id)
+		full_coco_image_path = "/npy/" + '%012d.jpg' % (image_id)
 		#full_coco_image_path = imageFilePath + '%012d.jpg' % (image_id)
 
 		all_img_name_vector.append(full_coco_image_path)
@@ -72,24 +72,7 @@ def createInceptionModel ():
 	image_features_extract_model = tf.keras.Model(new_input, hidden_layer)
 	return image_features_extract_model
 
-	"""
-	yoloModel = load_model("/home/alyssa/keras-yolo3/model_data/yolo.h5")
-	#new_input = yoloModel.input
 
-	print(yoloModel)
-	#yoloModel = tf.keras.Model(new_input, hidden_layer)
-	#print(yoloModel.summary())
-	#toloModel = tf.keras.Model(inputs=yoloModel.input, outputs=yoloModel.get_layer("conv2d_75").output)
-	#load model and Imagenet weights from keras without last fc (include_top=False)
-	#image_model = tf.keras.applications.ResNet101(include_top=True, weights='imagenet')
-	#define input of model
-	#new_input = image_model.input
-	#hidden_layer = image_model.layers[-1].output
-	
-	#image_features_extract_model = tf.keras.Model(new_input, hidden_layer)
-	print(yoloModel.summary())
-	return yoloModel
-	"""
 
 #Caching the features extracted from InceptionV3
 #not necessary if imgXXXX.jpg.npy already exists.
