@@ -1,5 +1,5 @@
 
-# Project Title
+# AUTOMATIC GENERATION OF DESCRIPTIVE TEXTS FROM A VIDEO WITH MACHINE LEARNING
 
 Code developed for my undergraduate thesis.
 
