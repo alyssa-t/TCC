@@ -22,9 +22,9 @@ from .preprocess import *
 from .telegram_logger import telegramSendMessage
 
 ANNOTATION_FILE = "captions_train2017_pt.txt"
-ANNOTATION_FILE_PATH = "/home/mathlima/pastaA/"
-TRAIN_IMAGE_FOLDER_PATH = "/home/mathlima/pastaA/download/x/train2017/"
-VALIDATION_IMAGE_FOLDER_PATH = "/home/mathlima/pastaA/download/x/train2017/"
+ANNOTATION_FILE_PATH = "/"
+TRAIN_IMAGE_FOLDER_PATH = "/"
+VALIDATION_IMAGE_FOLDER_PATH = "/"
 BATCH_SIZE_INCEPTIONV3 = 16
 NUM_CAPTIONS = 30000
 EXTRACT_NPY = False
@@ -35,7 +35,7 @@ EPOCHS = 40
 TOP_K = 10000
 
 CHECKPOINT_PATH = "./checkpoints/train/2-8-yolo-v.3"
-TEST_IMAGE_PATH = "4.jpg.npy"
+TEST_IMAGE_PATH = "*.npy"
 
 # Shape of the vector extracted from InceptionV3 is (64, 2048)
 # These two variables represent that vector shape
@@ -166,7 +166,7 @@ def main(trainCaptions, img_name_vector):
         id_npy += 1
     """
 
-    for npyfile in glob.glob("/home/mathlima/pastaA/optics/npy/*.npy"):
+    for npyfile in glob.glob("/*.npy"):
         print("Captioning image :")
         #path = str(id_npy) + ".jpg.npy"
         print(npyfile)
@@ -183,7 +183,7 @@ def main(trainCaptions, img_name_vector):
             # plot_attention(TEST_IMAGE_PATH, result, attention_plot)
     
     print("======= VAL IMAGES =======")
-    for npyfile in glob.glob("/home/mathlima/pastaA/val/*.npy"):
+    for npyfile in glob.glob("/*.npy"):
         print()
         print("Captioning image :")
         #path = str(id_npy) + ".jpg.npy"
