@@ -25,6 +25,7 @@ ANNOTATION_FILE = "captions_train2017_pt.txt"
 ANNOTATION_FILE_PATH = "/"
 TRAIN_IMAGE_FOLDER_PATH = "/"
 VALIDATION_IMAGE_FOLDER_PATH = "/"
+TOKENIZER_PATH = "/home/alyssa/Desktop/projeto_graduacao/"
 BATCH_SIZE_INCEPTIONV3 = 16
 NUM_CAPTIONS = 30000
 EXTRACT_NPY = False
@@ -34,7 +35,7 @@ BUFFER_SIZE = 1000
 EPOCHS = 40
 TOP_K = 10000
 
-CHECKPOINT_PATH = "./checkpoints/train/2-8-yolo-v.3"
+CHECKPOINT_PATH = "/home/alyssa/Desktop/projeto_graduacao/ImageCaption"
 TEST_IMAGE_PATH = "*.npy"
 
 # Shape of the vector extracted from InceptionV3 is (64, 2048)
@@ -73,6 +74,9 @@ def main(trainCaptions, img_name_vector):
     #Tokenize captions
     cap_vector, maxLength, tokenizer = tokenizeCaptions(trainCaptions, TOP_K)
 
+    with open(TOKENIZER_PATH+'tokenizer.pickle', 'wb') as handle:
+        pickle.dump(tokenizer, handle)
+
     #Create Dataset
     methodDataset = Methods_Dataset(img_name_vector,
                                     cap_vector,
@@ -97,14 +101,6 @@ def main(trainCaptions, img_name_vector):
 
     #Load Checkpoint if exists
     start_epoch = 0
-    """
-    if ckpt_manager.latest_checkpoint:
-        start_epoch = int(ckpt_manager.latest_checkpoint.split('-')[-1])*5
-        # restoring the latest checkpoint in CHECKPOINT_PATH
-        status = ckpt.restore(ckpt_manager.latest_checkpoint)
-        print("Restored CheckPoint from" + ckpt_manager.directory)
-        status.assert_existing_objects_matched()
-    """
     
     # adding this in a separate cell because if you run the training cell
     # many times, the loss_plot array will be reset
