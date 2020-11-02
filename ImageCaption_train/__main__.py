@@ -21,11 +21,13 @@ from .evaluate import *
 from .preprocess import *
 from .telegram_logger import telegramSendMessage
 
-ANNOTATION_FILE = "captions_train2017_pt.txt"
-ANNOTATION_FILE_PATH = "/"
-TRAIN_IMAGE_FOLDER_PATH = "/"
-VALIDATION_IMAGE_FOLDER_PATH = "/"
-TOKENIZER_PATH = "/home/alyssa/Desktop/projeto_graduacao/"
+ANNOTATION_FILE = "captions.txt"
+ANNOTATION_FILE_PATH = "/../"
+TRAIN_IMAGE_FOLDER_PATH = "/../"
+VALIDATION_IMAGE_FOLDER_PATH = "/../"
+TOKENIZER_PATH = "/../"
+CHECKPOINT_PATH = "/../checkpoints"
+PLOT_IMAGE_NAME = "plot.png"
 BATCH_SIZE_INCEPTIONV3 = 16
 NUM_CAPTIONS = 30000
 EXTRACT_NPY = False
@@ -35,17 +37,16 @@ BUFFER_SIZE = 1000
 EPOCHS = 40
 TOP_K = 10000
 
-CHECKPOINT_PATH = "/home/alyssa/Desktop/projeto_graduacao/ImageCaption"
-TEST_IMAGE_PATH = "*.npy"
 
 # Shape of the vector extracted from InceptionV3 is (64, 2048)
 # These two variables represent that vector shape
+
 features_shape = 2048
 attention_features_shape = 64
 #embeddingdim = vector dimension for word mapping
-embedding_dim = 512
+embedding_dim = 2048
 #units = dimensionality of the output space of models
-units = 1024
+units = 2048
 # words vector size
 vocab_size = TOP_K + 1
 #num_setps = int division NUM=CAPTIONS/BATCH_SIZE. ex: 4//1.5 = 2
@@ -54,16 +55,12 @@ num_steps = NUM_CAPTIONS // BATCH_SIZE
 def main(trainCaptions, img_name_vector):
 
     #Code for setup GPU
-    os.environ["CUDA_VISIBLE_DEVICES"] = "0"
-    """
+    #os.environ["CUDA_VISIBLE_DEVICES"] = "0"
     gpu_devices = tf.config.experimental.list_physical_devices('GPU')
     for device in gpu_devices:
         tf.config.experimental.set_memory_growth(device, True)
     tf.compat.v1.enable_eager_execution()
-    """
-
-    #Load images and captions
-
+    
     #Create model for extract features using InceptionV3
     image_features_extract_model = createInceptionModel()
     if (EXTRACT_NPY):
@@ -106,7 +103,7 @@ def main(trainCaptions, img_name_vector):
     # many times, the loss_plot array will be reset
     loss_plot = []
     for epoch in range(start_epoch, EPOCHS):
-        telegramSendMessage("yolo no comeco do epoch "+str(epoch))
+        telegramSendMessage("Comeco do epoch "+str(epoch))
         start = time.time()
         total_loss = 0
         
@@ -127,114 +124,31 @@ def main(trainCaptions, img_name_vector):
         loss_plot.append(total_loss / num_steps)
         
         if epoch % 5 == 0:
-            ckpt_manager.save()
-        
+            ckpt_manager.save()       
 
         print ('Epoch {} Loss {:.6f}'.format(epoch + 1,
                                                 total_loss/num_steps))
         print ('Time taken for 1 epoch {} sec\n'.format(time.time() - start))
-        telegramSendMessage("yolo no fim do epoch "+str(epoch)+" com erro "+str(total_loss/num_steps))
+        telegramSendMessage("Fim do epoch " + str(epoch))
 
     plt.plot(loss_plot)
     plt.xlabel('Epochs')
     plt.ylabel('Loss')
     plt.title('Loss Plot')
-    plt.savefig('loss_plot-ver-epoch40.png', bbox_inches='tight')
-    path = TEST_IMAGE_PATH
-
-    id_npy = 0
-    """
-    for c in range(20):
-        print("Captioning image :")
-        path = str(id_npy) + ".jpg.npy"
-        print(path)
-        for i in range(10):
-            
-            result = evaluate(path,
-                                                maxLength,
-                                                attention_features_shape,
-                                                decoder,
-                                                encoder,
-                                                image_features_extract_model,
-                                                tokenizer)
-            print ('Prediction Caption:', ' '.join(result))
-            # plot_attention(TEST_IMAGE_PATH, result, attention_plot)
-        id_npy += 1
-    """
-
-    for npyfile in glob.glob("/*.npy"):
-        print("Captioning image :")
-        #path = str(id_npy) + ".jpg.npy"
-        print(npyfile)
-        for i in range(10):
-            
-            result = evaluate(npyfile,
-                                                maxLength,
-                                                attention_features_shape,
-                                                decoder,
-                                                encoder,
-                                                image_features_extract_model,
-                                                tokenizer)
-            print ('Prediction Caption:', ' '.join(result))
-            # plot_attention(TEST_IMAGE_PATH, result, attention_plot)
+    plt.savefig(PLOT_IMAGE_NAME, bbox_inches='tight')
+        
     
-    print("======= VAL IMAGES =======")
-    for npyfile in glob.glob("/*.npy"):
-        print()
-        print("Captioning image :")
-        #path = str(id_npy) + ".jpg.npy"
-        print(npyfile)
-        for i in range(10):
-            
-            result = evaluate(npyfile,
-                                                maxLength,
-                                                attention_features_shape,
-                                                decoder,
-                                                encoder,
-                                                image_features_extract_model,
-                                                tokenizer)
-            print ('Prediction Caption:', ' '.join(result))
-            # plot_attention(TEST_IMAGE_PATH, result, attention_plot)
-    
-    
-
-
 if __name__ == '__main__':
     warnings.simplefilter(action='ignore', category=FutureWarning)
-    telegramSendMessage("loading captions")
+    telegramSendMessage("Carregando captions")
     try:
         trainCaptions, img_name_vector = loadAnnotation(ANNOTATION_FILE_PATH+ANNOTATION_FILE,
                                                                 TRAIN_IMAGE_FOLDER_PATH,
                                                                 None)
-        print(len(trainCaptions))
         telegramSendMessage(str(len(trainCaptions)) + " npy files loaded")
 
-        """
-        print("----------------embdim = 512------------------")
-        print("----------------rnn_units = 1024------------------")
-        print()
-        print()
-        print()
         main(trainCaptions, img_name_vector)
-        """
-        print("----------------embdim = 2048------------------")
-        print("----------------rnn_units = 2048------------------ sem fc")
-        embedding_dim = 2048
-        units = 2048
-        print()
-        print()
-        print()
-        main(trainCaptions, img_name_vector)
-        """
-        print("----------------embdim = 1024------------------")
-        print("----------------rnn_units = 2048------------------")
-        embedding_dim = 1024
-        units = 2048
-        print()
-        print()
-        print()
-        main(trainCaptions, img_name_vector)
-        """
+
     except Exception as e:
         telegramSendMessage('Houve um erro de execução')
         telegramSendMessage(str(e))
