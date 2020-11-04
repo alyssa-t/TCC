@@ -18,14 +18,16 @@ from tqdm import tqdm
 from .extractFrames import *
 from .cluster import *
 
-VIDEO_FILE_NAME = '/.../uptown.mp4'                     # Video file name
-TARGET_IMAGES_DIR = '/.../'     						# save keyframes
+VIDEO_FILE_NAME = '/.../video.mp4'                     # Video file name
+TARGET_IMAGES_DIR = '/.../'     # save keyframes
+FILE_NAME = "/.../train.txt" #save keyframes path
 FRAME_PER_SECONDS = 1
 RESIZED_IMAGE_SIZE = 224
 OPTIC_MIN_SAMPLES = 2
 
 
 def main():
+	
 	#Code for setup GPU
 	#os.environ["CUDA_VISIBLE_DEVICES"] = "0"
 	gpu_devices = tf.config.experimental.list_physical_devices('GPU')
@@ -42,6 +44,11 @@ def main():
 	for i in selectedImageIndex:
 		result = Image.fromarray(framesArray[i])
 		result.save(TARGET_IMAGES_DIR + str(i).zfill(6)+".png")
+	
+	imagesPath = [f for f in os.listdir(TARGET_IMAGES_DIR) if f[-4:] in ['.png', '.jpg']]
+	with open(FILE_NAME, 'w') as out_file:
+		for path in imagesPath:
+			out_file.write(TARGET_IMAGES_DIR+ path+"\n")
 	#print("--- execution time: %.2f seconds ---" % (time.time() - start_time))
 	
 
