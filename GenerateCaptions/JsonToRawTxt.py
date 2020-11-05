@@ -6,7 +6,7 @@ import warnings
 
 CAPTION_JSON_FILE = "/.../captions_val2017.json"
 OUTPUT_FILE_PATH = "/.../"
-CAPTION_TXT_FILENAME = "caption"
+CAPTION_TXT_FILE = "caption"
 NUM_CAPTION_PER_FILE = 18000
 
 def main():
@@ -18,7 +18,7 @@ def main():
 		f = open(OUTPUT_FILE_PATH + CAPTION_TXT_FILE + "_" + str(i) + ".txt", "w")
 
 		for p in captionFile['annotations']:
-			f.write(p['caption'])
+			f.write(p['caption'].replace("\n",""))
 			counter+=1
 			
 			if (counter > len(captionFile['annotations'])):
@@ -29,7 +29,7 @@ def main():
 				f.close()
 				i+=1
 				f = open(OUTPUT_FILE_PATH + CAPTION_TXT_FILE + "_" + str(i) + ".txt", "w")
-			elif ("\n" not in p['caption']):
+			else:
 				f.write("\n")
 
 if __name__ == '__main__':
