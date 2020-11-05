@@ -29,6 +29,9 @@ Codigo desenvolvido para [Tese de Conclusao de Curso](http://www.monografias.pol
 - [Dados do MSCOCO](https://cocodataset.org/#download)
 
 ## Como usar
+### Configurar os diretorios dos programas
+Configurar no  `__main__.py` de cada programa 
+
 ### Preparar os dados de texto
 No `/GenerateCaptions`
 
