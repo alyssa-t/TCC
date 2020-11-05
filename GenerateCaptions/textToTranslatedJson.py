@@ -13,7 +13,6 @@ NUM_CAPTION_PER_FILE = 18000
 def main():
 	counter = 1
 	i = 1
-	
 
 	with open(ORIGINAL_JSON_FILE) as json_file:
 		originalcaptionFile = json.load(json_file)

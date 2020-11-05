@@ -55,6 +55,7 @@ Pegar o arquivo resultante `train.txt` e executar YOLOv4:
  A partir do result.txt do Yolov4 e as imagens de treino, criar a base de treino para esse programa:
 `python3 -m FeatureGenerator`
 
+### Treino da rede
 A partir dos dados gerados, treinar a rede:
 `python3 -m ImageCaption_train`
 
