@@ -3,9 +3,9 @@ import os
 import warnings
 from .featureGenerator import *
 
-YOLO_RESULT_FILE = "/home/alyssa/Desktop/projeto_graduacao/Feature_Generator/result.txt"
-PATH_TMP_FOLDER = "/home/alyssa/Desktop/projeto_graduacao/Feature_Generator/tmp/"
-PATH_NPY_FILES = "/home/alyssa/Desktop/projeto_graduacao/Feature_Generator/npy/"
+YOLO_RESULT_FILE = "/.../result.txt"
+PATH_TMP_FOLDER = "/.../tmp/"
+PATH_NPY_FILES = "/.../npy/"
 BATCH_SIZE_INCEPTIONV3 = 16
 NTH_SLASH = 6
 
