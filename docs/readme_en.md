@@ -6,8 +6,6 @@ Code developed for my undergraduate thesis.
 <p align="center">
     <a href="/docs/readme_fr.md">English </a>
 	.
-    <a href="/docs/readme_ja.md">日本語</a>
-    ·
     <a href="/docs/readme_pt-BR.md">Português Brasileiro</a>
 
 </p>
