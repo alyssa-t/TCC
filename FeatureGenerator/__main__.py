@@ -1,7 +1,7 @@
 import tensorflow as tf
 import os
 import warnings
-from .Feature_Generator import *
+from .featureGenerator import *
 
 YOLO_RESULT_FILE = "/home/alyssa/Desktop/projeto_graduacao/Feature_Generator/result.txt"
 PATH_TMP_FOLDER = "/home/alyssa/Desktop/projeto_graduacao/Feature_Generator/tmp/"
