@@ -17,6 +17,8 @@ Things you need to install
 •pillow 7.1.2 (pip install Pillow)
 •nltk 3.5.0 (pip install Pillow)
 •CMake 3.12 (pip install cmake)
+•pickle5 0.0.11 (pip install picke5)
+
 ```
 
 
