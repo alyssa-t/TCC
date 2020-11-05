@@ -1,14 +1,16 @@
-
-# AUTOMATIC GENERATION OF DESCRIPTIVE TEXTS FROM A VIDEO WITH MACHINE LEARNING
-
-Code developed for my undergraduate thesis.
-
 <p align="center">
     <a href="/docs/readme_fr.md">English </a>
 	.
     <a href="/docs/readme_pt-BR.md">Português Brasileiro</a>
 
 </p>
+
+
+# AUTOMATIC GENERATION OF DESCRIPTIVE TEXTS FROM A VIDEO WITH MACHINE LEARNING
+
+Code developed for my undergraduate thesis.
+
+
 
 ### Prerequisites
 
