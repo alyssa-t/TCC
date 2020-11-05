@@ -29,14 +29,32 @@ Codigo desenvolvido para Tese de Conclusao de Curso.
 - [Dados do MSCOCO](https://cocodataset.org/#download)
 
 ## Como usar
-### Preparar os dados
+### Preparar os dados de texto
 • Para traduzir as anotacoes de ingles para portugues:
 
 	`python3 JsonToRawTxt.py `
 
-	Colocar o documento de output para traduzir
-	
+• Colocar o documento de output para traduzir
+
+• Para criar um novo arquivo json com anotacoes traduzidas:
+
 	`python3 textToTranslatedJson.py`
+
+• Json resultante vai ser usado para treinar a rede
+
+### Preparar os dados de imagem
+• Para traduzir as anotacoes de ingles para portugues:
+
+	`python3 JsonToRawTxt.py `
+
+• Colocar o documento de output para traduzir
+
+• Para criar um novo arquivo json com anotacoes traduzidas:
+
+	`python3 textToTranslatedJson.py`
+
+• Json resultante vai ser usado para treinar a rede
+
 
 
 ## References
