@@ -31,36 +31,35 @@ Codigo desenvolvido para Tese de Conclusao de Curso.
 ## Como usar
 ### Preparar os dados de texto
 No `/GenerateCaptions`
-• Para traduzir as anotacoes de ingles para portugues:
 
+Para traduzir as anotacoes de ingles para portugues:
 `python3 JsonToRawTxt.py`
 
-• Colocar o documento de output para traduzir
+Colocar o documento de output para traduzir
 
-• Para criar um novo arquivo json com anotacoes traduzidas:
-
+Para criar um novo arquivo json com anotacoes traduzidas:
 `python3 textToTranslatedJson.py`
 
-• Json resultante vai ser usado para treinar a rede
+Json resultante vai ser usado para treinar a rede
 
 ### Preparar os dados de imagem
-• Se quiser pegar keyframes de um video, no `/` executar
-
+Se quiser pegar keyframes de um video, no `/` executar
 `python3 -m KeyframeExtraction`
 
-• Caso contrario executar
+ Caso contrario executar
 `python3 createTrainImageList.py`
 
-• Pegar o arquivo resultante `train.txt` e executar YOLOv4
+Pegar o arquivo resultante `train.txt` e executar YOLOv4
 `./darknet detector test cfg/coco.data cfg/yolov4.cfg yolov4.weights -dont_show -ext_output < data/train.txt > result.txt`
 
-• Para criar um novo arquivo json com anotacoes traduzidas:
+ A partir do result.txt do Yolov4 e as imagens de treino, criar a base de treino para esse programa
+`python3 -m FeatureGenerator`
 
-`python3 textToTranslatedJson.py`
+A partir dos dados gerados, treinar a rede 
+`python3 -m ImageCaption_train`
 
-• Json resultante vai ser usado para treinar a rede
-
-
+Testar os resultados 
+`python3 -m ImageCaption_validation`
 
 ## References
 <!-- https://www.pugetsystems.com/labs/hpc/ 
