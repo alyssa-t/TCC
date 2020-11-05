@@ -1,8 +1,4 @@
 
-# AUTOMATIC GENERATION OF DESCRIPTIVE TEXTS FROM A VIDEO WITH MACHINE LEARNING
-
-Code developed for my undergraduate thesis.
-
 <p align="center">
     <a href="/docs/readme_en.md">English </a>
     ·
@@ -10,9 +6,11 @@ Code developed for my undergraduate thesis.
 
 </p>
 
-### Prerequisites
+# GERAÇÃO AUTOMÁTICA DE TEXTOS DESCRITIVOS DE UM VÍDEO COM USO DE APRENDIZAGEM DE MÁQUINA
 
-Things you need to install
+Codigo desenvolvido para Tese de Conclusao de Curso.
+
+## Pre-requisitos
 
 ```
 •python 3.6 (sudo apt-get install python3.6)
@@ -28,8 +26,17 @@ Things you need to install
 
 ```
 - [YOLOV4](https://github.com/AlexeyAB/darknet)
+- [Dados do MSCOCO](https://cocodataset.org/#download)
 
-# References
+## Como usar
+### Preparar os dados
+• Para traduzir as anotacoes de ingles para portugues:
+	`python3 JsonToRawTxt.py `
+	Colocar o documento de output para traduzir
+	`python3 textToTranslatedJson.py`
+
+
+## References
 <!-- https://www.pugetsystems.com/labs/hpc/ 
 How-To-Install-CUDA-10-together-with-9-2-on-Ubuntu-18-04-with-support-for-NVIDIA-20XX-Turing-GPUs-1236/
 howtogeek.com/442101/how-to-move-your-linux-home-directory-to-another-hard-drive/-->
