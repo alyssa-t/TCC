@@ -14,12 +14,12 @@ def loadAnnotation(annotationFilePath, imageFilePath, numExamples):
 	# initialize vectors
 	all_captions = []
 	all_img_name_vector = []
-	npy = np.load("idList.npy")
+	#npy = np.load("idList.npy")
 	#for all annotation, associate caption with respective image path (path+imageid.jpg)
 	for annot in annotations['annotations']:
 		annotid = '%012d' % (annot['image_id'])
-		if not (annotid in npy):
-			continue
+		#if not (annotid in npy):
+		#	continue
 		#if len(all_captions) == 5:
 		#	break
 		if len(annot['caption'].split(" ")) > 15:
