@@ -5,7 +5,7 @@ from .featureGenerator import *
 
 YOLO_RESULT_FILE = "/.../result.txt"
 PATH_TMP_FOLDER = "/.../tmp/"
-PATH_NPY_FILES = "/.../npy/"
+PATH_NPY_FILES = "/.../trainImages/npy/"
 BATCH_SIZE_INCEPTIONV3 = 16
 NTH_SLASH = 6
 

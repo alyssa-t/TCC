@@ -18,8 +18,6 @@ def loadAnnotation(annotationFilePath, imageFilePath, numExamples):
 	#for all annotation, associate caption with respective image path (path+imageid.jpg)
 	for annot in annotations['annotations']:
 		annotid = '%012d' % (annot['image_id'])
-		#if not (annotid in npy):
-		#	continue
 		#if len(all_captions) == 5:
 		#	break
 		if len(annot['caption'].split(" ")) > 15:
@@ -29,8 +27,8 @@ def loadAnnotation(annotationFilePath, imageFilePath, numExamples):
 		caption = '<start> ' + annot['caption'] + ' <end>'
 		image_id = annot['image_id']
 		
-		full_coco_image_path = "/npy/" + '%012d.jpg' % (image_id)
-		#full_coco_image_path = imageFilePath + '%012d.jpg' % (image_id)
+		#full_coco_image_path = "/npy/" + '%012d.jpg' % (image_id)
+		full_coco_image_path = imageFilePath + '%012d.jpg' % (image_id)
 
 		all_img_name_vector.append(full_coco_image_path)
 		all_captions.append(caption)
