@@ -30,28 +30,33 @@ Codigo desenvolvido para Tese de Conclusao de Curso.
 
 ## Como usar
 ### Preparar os dados de texto
+No `/GenerateCaptions`
 • Para traduzir as anotacoes de ingles para portugues:
 
-	`python3 JsonToRawTxt.py `
+`python3 JsonToRawTxt.py`
 
 • Colocar o documento de output para traduzir
 
 • Para criar um novo arquivo json com anotacoes traduzidas:
 
-	`python3 textToTranslatedJson.py`
+`python3 textToTranslatedJson.py`
 
 • Json resultante vai ser usado para treinar a rede
 
 ### Preparar os dados de imagem
-• Para traduzir as anotacoes de ingles para portugues:
+• Se quiser pegar keyframes de um video, no `/` executar
 
-	`python3 JsonToRawTxt.py `
+`python3 -m KeyframeExtraction`
 
-• Colocar o documento de output para traduzir
+• Caso contrario executar
+`python3 createTrainImageList.py`
+
+• Pegar o arquivo resultante `train.txt` e executar YOLOv4
+`./darknet detector test cfg/coco.data cfg/yolov4.cfg yolov4.weights -dont_show -ext_output < data/train.txt > result.txt`
 
 • Para criar um novo arquivo json com anotacoes traduzidas:
 
-	`python3 textToTranslatedJson.py`
+`python3 textToTranslatedJson.py`
 
 • Json resultante vai ser usado para treinar a rede
 
