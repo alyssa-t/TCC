@@ -31,8 +31,11 @@ Codigo desenvolvido para Tese de Conclusao de Curso.
 ## Como usar
 ### Preparar os dados
 • Para traduzir as anotacoes de ingles para portugues:
+
 	`python3 JsonToRawTxt.py `
+
 	Colocar o documento de output para traduzir
+	
 	`python3 textToTranslatedJson.py`
 
 
