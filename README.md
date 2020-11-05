@@ -8,7 +8,7 @@
 
 # GERAÇÃO AUTOMÁTICA DE TEXTOS DESCRITIVOS DE UM VÍDEO COM USO DE APRENDIZAGEM DE MÁQUINA
 
-Codigo desenvolvido para Tese de Conclusao de Curso.
+Codigo desenvolvido para [Tese de Conclusao de Curso](http://www.monografias.poli.ufrj.br/monografias/monopoli10031973.pdf).
 
 ## Pre-requisitos
 
@@ -63,15 +63,7 @@ Testar os resultados:
 `python3 -m ImageCaption_validation`
 
 ## References
-<!-- https://www.pugetsystems.com/labs/hpc/ 
-How-To-Install-CUDA-10-together-with-9-2-on-Ubuntu-18-04-with-support-for-NVIDIA-20XX-Turing-GPUs-1236/
-howtogeek.com/442101/how-to-move-your-linux-home-directory-to-another-hard-drive/-->
-
-
-https://www.tensorflow.org/tutorials/text/image_captioning
-
-https://github.com/iShoto/testpy/tree/master/samples/image_clustering
-
+- [Image Captioning TensorFlow](https://www.tensorflow.org/tutorials/text/image_captioning)
 
 ## License
 
