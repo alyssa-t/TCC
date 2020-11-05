@@ -20,7 +20,7 @@ Things you need to install
 •pickle5 0.0.11 (pip install picke5)
 
 ```
-
+- [YOLOV4](https://github.com/AlexeyAB/darknet)
 
 # References
 <!-- https://www.pugetsystems.com/labs/hpc/ 
