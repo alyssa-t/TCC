@@ -66,6 +66,8 @@ para depois gerar o  "data/train.txt"
 Para isso, na raíz do repositório executar:
 `python3 -m KeyframeExtraction`
 
+Baixar e compilar [YOLOV4](https://github.com/AlexeyAB/darknet)
+
 Pegar o arquivo resultante `train.txt` e executar YOLOv4:
 `./darknet detector test cfg/coco.data cfg/yolov4.cfg yolov4.weights -dont_show -ext_output < data/train.txt > result.txt`
 
