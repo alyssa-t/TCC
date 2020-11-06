@@ -8,7 +8,7 @@
 
 # GERAÇÃO AUTOMÁTICA DE TEXTOS DESCRITIVOS DE UM VÍDEO COM USO DE APRENDIZAGEM DE MÁQUINA
 
-Codigo desenvolvido para [Tese de Conclusao de Curso](http://www.monografias.poli.ufrj.br/monografias/monopoli10031973.pdf).
+Código desenvolvido para [Tese de Conclusão de Curso](http://www.monografias.poli.ufrj.br/monografias/monopoli10031973.pdf).
 
 ## Pre-requisitos
 
